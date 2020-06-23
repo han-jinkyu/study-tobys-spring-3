@@ -4,10 +4,10 @@ import springbook.user.domain.User;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao();
+        UserDao dao = new AUserDao();
 
         User user = new User();
         user.setId("foo");
@@ -62,10 +62,5 @@ public class UserDao {
         return user;
     }
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-            "jdbc:mysql://localhost/springbook?verifyServerCertificate=false&useSSL=false", "spring", "book");
-        return c;
-    }
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
  }
