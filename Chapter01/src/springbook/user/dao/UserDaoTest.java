@@ -12,6 +12,9 @@ public class UserDaoTest {
         ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         UserDao dao = context.getBean("userDao", UserDao.class);
 
+        // 귀찮아서 삭제 로직 추가
+        dao.removeAll();
+
         User user = new User();
         user.setId("foo");
         user.setName("bar");
