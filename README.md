@@ -38,3 +38,4 @@
 ---
 
 1. [오브젝트와 의존관계](./Chapter01/docs/index.md)
+2. [테스트](./Chapter02/docs/index.md)
