@@ -14,12 +14,12 @@ import static org.junit.Assert.assertThat;
 public class UserDaoTest {
 
     @Test
-    public void addAndGet() throws SQLException, ClassNotFoundException {
+    public void addAndGet() throws SQLException {
         ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
         UserDao dao = context.getBean("userDao", UserDao.class);
 
-        // 귀찮아서 삭제 로직 추가
-        dao.removeAll();
+        dao.deleteAll();
+        assertThat(dao.getCount(), is(0));
 
         User user = new User();
         user.setId("foo");
@@ -27,15 +27,11 @@ public class UserDaoTest {
         user.setPassword("test");
 
         dao.add(user);
-        System.out.println(user.getId() + " 등록 성공");
+        assertThat(dao.getCount(), is(1));
 
         User user2 = dao.get(user.getId());
 
         assertThat(user2.getName(), is(user.getName()));
         assertThat(user2.getPassword(), is(user.getPassword()));
-    }
-
-    public static void main(String[] args) {
-        JUnitCore.main("springbook.user.dao.UserDaoTest");
     }
 }
