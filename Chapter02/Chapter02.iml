@@ -20,5 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="org.springframework:spring-test:5.2.3.RELEASE" level="project" />
   </component>
 </module>
