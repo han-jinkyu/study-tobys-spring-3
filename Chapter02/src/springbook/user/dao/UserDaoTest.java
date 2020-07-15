@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,17 +19,14 @@ import static org.junit.Assert.assertThat;
 public class UserDaoTest {
 
     @Autowired
-    private ApplicationContext context;
-
     private UserDao dao;
+
     private User user1;
     private User user2;
     private User user3;
 
     @Before
     public void setUp() {
-        this.dao = context.getBean("userDao", UserDao.class);
-
         user1 = new User("test1", "foo", "bar");
         user2 = new User("test2", "foo2", "bar2");
         user3 = new User("test3", "foo3", "bar3");
