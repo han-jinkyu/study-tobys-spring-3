@@ -6,7 +6,7 @@ import springbook.user.domain.User;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
 
     private DataSource dataSource;
 
@@ -59,13 +59,20 @@ public class UserDao {
     }
 
     public void deleteAll() throws SQLException {
+        StatementStrategy strategy = new DeleteAllStatement();
+        jdbcContextWEithStatementStrategy(strategy);
+    }
+
+    public void jdbcContextWEithStatementStrategy(StatementStrategy stmt) throws SQLException {
         Connection c = null;
         PreparedStatement ps = null;
 
         try {
             c = dataSource.getConnection();
-            ps = c.prepareStatement("DELETE FROM users");
-            ps.execute();
+
+            ps = stmt.makePreparedStatement(c);
+
+            ps.executeUpdate();
         } catch (Exception e) {
             throw e;
         } finally {
