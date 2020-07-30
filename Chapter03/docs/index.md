@@ -5,4 +5,4 @@
 3. [JDBC 전략 패턴의 최적화](./03.md)
 4. [컨텍스트와 DI](./04.md)
 5. [템플릿과 콜백](./05.md)
-6. 스프링의 JDBCTEMPLATE
+6. [스프링의 JDBCTEMPLATE](./06.md)
