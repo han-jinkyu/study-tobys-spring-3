@@ -1,18 +1,11 @@
 package springbook.user.dao;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import springbook.user.domain.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDao {
 
@@ -50,4 +43,16 @@ public class UserDao {
     public int getCount() {
         return this.jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users", Integer.class);
     }
- }
+
+    public List<User> getAll() {
+        return this.jdbcTemplate.query(
+                "SELECT * FROM users ORDER BY id",
+                (resultSet, i) -> {
+                    User user = new User();
+                    user.setId(resultSet.getString("id"));
+                    user.setName(resultSet.getString("name"));
+                    user.setPassword(resultSet.getString("password"));
+                    return user;
+                });
+    }
+}
