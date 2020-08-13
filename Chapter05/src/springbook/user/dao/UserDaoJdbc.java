@@ -2,6 +2,7 @@ package springbook.user.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import springbook.user.domain.Level;
 import springbook.user.domain.User;
 
 import javax.sql.DataSource;
@@ -19,13 +20,18 @@ public class UserDaoJdbc implements UserDao {
         user.setId(resultSet.getString("id"));
         user.setName(resultSet.getString("name"));
         user.setPassword(resultSet.getString("password"));
+        user.setLevel(Level.valueOf(resultSet.getInt("level")));
+        user.setLogin(resultSet.getInt("login"));
+        user.setRecommend(resultSet.getInt("recommend"));
         return user;
     };
 
     public void add(final User user) {
         this.jdbcTemplate.update(
-            "INSERT INTO users(id, name, password) VALUES(?, ?, ?)",
-            user.getId(), user.getName(), user.getPassword());
+            "INSERT INTO users(id, name, password, level, login, recommend) " +
+            "VALUES(?, ?, ?, ?, ?, ?)",
+            user.getId(), user.getName(), user.getPassword(),
+            user.getLevel().intValue(), user.getLogin(), user.getRecommend());
     }
 
     public User get(String id) {
