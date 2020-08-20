@@ -29,7 +29,7 @@ public class UserService {
         }
     }
 
-    private void upgradeLevel(User user) {
+    protected void upgradeLevel(User user) {
         userLevelUpgradePolicy.upgradeLevel(user);
     }
 

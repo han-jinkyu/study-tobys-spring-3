@@ -15,6 +15,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static springbook.user.policy.UserLevelUpgradePolicyNormal.MIN_LOGCOUNT_FOR_SILVER;
 import static springbook.user.policy.UserLevelUpgradePolicyNormal.MIN_RECOMMEND_FOR_GOLD;
 
@@ -80,5 +81,41 @@ public class UserServiceTest {
 
         assertThat(userWithLevelRead.getLevel(), is(userWithLevel.getLevel()));
         assertThat(userWithoutLevelRead.getLevel(), is(Level.BASIC));
+    }
+
+    @Test
+    public void upgradeAllOrNothing() {
+        UserService testUserService = new TestUserService(users.get(3).getId());
+        testUserService.setUserDao(this.userDao);
+        testUserService.setUserLevelUpgradePolicy(this.userService.userLevelUpgradePolicy);
+
+        userDao.deleteAll();
+        for(User user : users) userDao.add(user);
+
+        try {
+            testUserService.upgradeLevels();
+            fail("TestUserServiceException expected");
+        } catch (TestUserServiceException e) {
+        }
+
+        checkLevelUpgraded(users.get(1), false);
+    }
+
+    static class TestUserService extends UserService {
+        private String id;
+
+        private TestUserService(String id) {
+            this.id = id;
+        }
+
+        @Override
+        protected void upgradeLevel(User user) {
+            if (user.getId().equals(id)) throw new TestUserServiceException();
+            super.upgradeLevel(user);
+        }
+
+    }
+
+    static class TestUserServiceException extends RuntimeException {
     }
 }
