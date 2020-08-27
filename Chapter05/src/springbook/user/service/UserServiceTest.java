@@ -6,11 +6,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.PlatformTransactionManager;
 import springbook.user.dao.UserDao;
 import springbook.user.domain.Level;
 import springbook.user.domain.User;
 
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class UserServiceTest {
     UserDao userDao;
 
     @Autowired
-    DataSource dataSource;
+    PlatformTransactionManager transactionManager;
 
     List<User> users;   // 테스트 픽스쳐
 
@@ -92,7 +92,7 @@ public class UserServiceTest {
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
         testUserService.setUserLevelUpgradePolicy(this.userService.userLevelUpgradePolicy);
-        testUserService.setDataSource(dataSource);
+        testUserService.setTransactionManager(this.transactionManager);
 
         userDao.deleteAll();
         for(User user : users) userDao.add(user);

@@ -1,6 +1,5 @@
 package springbook.user.service;
 
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -9,13 +8,12 @@ import springbook.user.domain.Level;
 import springbook.user.domain.User;
 import springbook.user.policy.UserLevelUpgradePolicy;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 public class UserService {
     UserDao userDao;
     UserLevelUpgradePolicy userLevelUpgradePolicy;
-    DataSource dataSource;
+    PlatformTransactionManager transactionManager;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -25,12 +23,11 @@ public class UserService {
         this.userLevelUpgradePolicy = userLevelUpgradePolicy;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
     }
 
-    public void upgradeLevels() throws Exception {
-        PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+    public void upgradeLevels() {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
