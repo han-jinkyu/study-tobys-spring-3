@@ -37,11 +37,11 @@ public class UserServiceTest {
     @Before
     public void setUp() {
         users = Arrays.asList(
-            new User("foo1", "bar1", "p1", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER - 1, 0),
-            new User("foo2", "bar2", "p2", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER, 0),
-            new User("foo3", "bar3", "p3", Level.SILVER, MIN_RECOMMEND_FOR_GOLD - 1, 29),
-            new User("foo4", "bar4", "p4", Level.SILVER, MIN_RECOMMEND_FOR_GOLD, 30),
-            new User("foo5", "bar5", "p5", Level.GOLD, 100, Integer.MAX_VALUE)
+            new User("foo1", "bar1", "p1", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER - 1, 0, "foo1@ksug.org"),
+            new User("foo2", "bar2", "p2", Level.BASIC, MIN_LOGCOUNT_FOR_SILVER, 0, "foo2@ksug.org"),
+            new User("foo3", "bar3", "p3", Level.SILVER, MIN_RECOMMEND_FOR_GOLD - 1, 29, "foo3@ksug.org"),
+            new User("foo4", "bar4", "p4", Level.SILVER, MIN_RECOMMEND_FOR_GOLD, 30, "foo4@ksug.org"),
+            new User("foo5", "bar5", "p5", Level.GOLD, 100, Integer.MAX_VALUE, "foo5@ksug.org")
         );
     }
 
