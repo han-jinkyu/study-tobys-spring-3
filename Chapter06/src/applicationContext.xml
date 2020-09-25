@@ -18,9 +18,13 @@
     </bean>
 
     <!-- userService -->
-    <bean id="userService" class="springbook.user.service.UserServiceTx">
-        <property name="userService" ref="userServiceImpl" />
-        <property name="transactionManager" ref="transactionManager" />
+    <bean id="userService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="userServiceImpl" />
+        <property name="interceptorNames">
+            <list>
+                <value>transactionAdvisor</value>
+            </list>
+        </property>
     </bean>
 
     <!-- userServiceImpl -->
@@ -29,13 +33,27 @@
         <property name="mailSender" ref="mailSender" />
     </bean>
 
+    <!-- transactionAdvice -->
+    <bean id="transactionAdvice" class="springbook.user.service.TransactionAdvice">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+
+    <!-- transactionPointcut -->
+    <bean id="transactionPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="upgrade*" />
+    </bean>
+
+    <!-- transactionAdvisor -->
+    <bean id="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="transactionAdvice" />
+        <property name="pointcut" ref="transactionPointcut" />
+    </bean>
+
     <!-- transactionManager -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
     <!-- mailSender -->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="mail.server.com" />
-    </bean>
+    <bean id="mailSender" class="springbook.user.service.DummyMailSender" />
 </beans>
