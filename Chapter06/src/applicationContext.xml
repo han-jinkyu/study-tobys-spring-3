@@ -50,4 +50,7 @@
         <property name="advice" ref="transactionAdvice" />
         <property name="pointcut" ref="transactionPointcut" />
     </bean>
+
+    <!-- TestUserService -->
+    <bean id="springbook.user.service.UserServiceTest$TestUserServiceImpl" parent="userService" />
 </beans>
