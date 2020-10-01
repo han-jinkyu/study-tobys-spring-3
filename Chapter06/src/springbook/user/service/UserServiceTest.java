@@ -16,6 +16,7 @@ import springbook.user.domain.User;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -133,5 +134,10 @@ public class UserServiceTest {
     }
 
     static class TestUserServiceException extends RuntimeException {
+    }
+
+    @Test
+    public void advisorAutoProxyCreator() {
+        assertThat(testUserService, instanceOf(java.lang.reflect.Proxy.class));
     }
 }
