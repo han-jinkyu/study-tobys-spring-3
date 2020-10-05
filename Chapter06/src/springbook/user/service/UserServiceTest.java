@@ -123,7 +123,7 @@ public class UserServiceTest {
         checkLevelUpgraded(users.get(1), false);
     }
 
-    static class TestUserServiceImpl extends UserServiceImpl {
+    static class TestUserService extends UserServiceImpl {
         private String id = "foo4";
 
         @Override
