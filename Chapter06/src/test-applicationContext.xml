@@ -40,18 +40,21 @@
     <!-- DefaultAdvisorAutoProxyCreator -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
 
-    <!-- transactionAdvice -->
-    <tx:advice id="transactionAdvice">
-        <tx:attributes>
-            <tx:method name="get*" read-only="true" />
-            <tx:method name="*" />
-        </tx:attributes>
-    </tx:advice>
+<!--    &lt;!&ndash; transactionAdvice &ndash;&gt;-->
+<!--    <tx:advice id="transactionAdvice">-->
+<!--        <tx:attributes>-->
+<!--            <tx:method name="get*" read-only="true" />-->
+<!--            <tx:method name="*" />-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
 
-    <!-- AOP -->
-    <aop:config>
-        <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)" />
-    </aop:config>
+<!--    &lt;!&ndash; AOP &ndash;&gt;-->
+<!--    <aop:config>-->
+<!--        <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)" />-->
+<!--    </aop:config>-->
+
+    <!-- annotation drive -->
+    <tx:annotation-driven />
 
     <!-- TestUserService -->
     <bean id="testUserService" class="springbook.user.service.UserServiceTest$TestUserService" parent="userService" />
