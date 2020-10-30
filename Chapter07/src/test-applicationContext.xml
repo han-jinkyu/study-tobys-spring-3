@@ -21,12 +21,16 @@
     <!-- userDao -->
     <bean id="userDao" class="springbook.user.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
-        <property name="sqlAdd" value="INSERT INTO users(id, name, password, level, login, recommend, email) VALUES(?, ?, ?, ?, ?, ?, ?)" />
-        <property name="sqlGet" value="SELECT * FROM users WHERE id = ?" />
-        <property name="sqlDeleteAll" value="DELETE FROM users" />
-        <property name="sqlGetCount" value="SELECT COUNT(*) FROM users" />
-        <property name="sqlGetAll" value="SELECT * FROM users ORDER BY id" />
-        <property name="sqlUpdate" value="UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? WHERE id = ?" />
+        <property name="sqlMap">
+            <map>
+                <entry key="add" value="INSERT INTO users(id, name, password, level, login, recommend, email) VALUES(?, ?, ?, ?, ?, ?, ?)" />
+                <entry key="get" value="SELECT * FROM users WHERE id = ?" />
+                <entry key="deleteAll" value="DELETE FROM users" />
+                <entry key="getCount" value="SELECT COUNT(*) FROM users" />
+                <entry key="getAll" value="SELECT * FROM users ORDER BY id" />
+                <entry key="update" value="UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? WHERE id = ?" />
+            </map>
+        </property>
     </bean>
 
     <!-- userService -->

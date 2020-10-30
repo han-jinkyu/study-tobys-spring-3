@@ -7,9 +7,12 @@ import springbook.user.domain.User;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoJdbc implements UserDao {
     private JdbcTemplate jdbcTemplate;
+
+    private Map<String, String> sqlMap;
 
     private String sqlAdd;
     private String sqlGet;
@@ -20,6 +23,10 @@ public class UserDaoJdbc implements UserDao {
 
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public void setSqlMap(Map<String, String> sqlMap) {
+        this.sqlMap = sqlMap;
     }
 
     public void setSqlAdd(String sqlAdd) {
@@ -61,7 +68,7 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public void add(final User user) {
         this.jdbcTemplate.update(
-            this.sqlAdd,
+            this.sqlMap.get("add"),
             user.getId(), user.getName(), user.getPassword(),
             user.getLevel().intValue(), user.getLogin(), user.getRecommend(), user.getEmail());
     }
@@ -69,30 +76,29 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public User get(String id) {
         return this.jdbcTemplate.queryForObject(
-            this.sqlGet,
+                this.sqlMap.get("get"),
             new Object[] { id }, userMapper);
     }
 
     @Override
     public void deleteAll() {
-        this.jdbcTemplate.update(this.sqlDeleteAll);
+        this.jdbcTemplate.update(this.sqlMap.get("deleteAll"));
     }
 
     @Override
     public int getCount() {
-        return this.jdbcTemplate.queryForObject(this.sqlGetCount, Integer.class);
+        return this.jdbcTemplate.queryForObject(this.sqlMap.get("getCount"), Integer.class);
     }
 
     @Override
     public List<User> getAll() {
-        return this.jdbcTemplate.query(this.sqlGetAll, userMapper);
+        return this.jdbcTemplate.query(this.sqlMap.get("getAll"), userMapper);
     }
 
     @Override
     public void update(User user) {
         this.jdbcTemplate.update(
-            "UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? " +
-            "WHERE id = ?",
+            this.sqlMap.get("update"),
             user.getName(), user.getPassword(), user.getLevel().intValue(),
             user.getLogin(), user.getRecommend(), user.getEmail(), user.getId());
     }
