@@ -11,8 +11,39 @@ import java.util.List;
 public class UserDaoJdbc implements UserDao {
     private JdbcTemplate jdbcTemplate;
 
+    private String sqlAdd;
+    private String sqlGet;
+    private String sqlDeleteAll;
+    private String sqlGetCount;
+    private String sqlGetAll;
+    private String sqlUpdate;
+
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public void setSqlAdd(String sqlAdd) {
+        this.sqlAdd = sqlAdd;
+    }
+
+    public void setSqlGet(String sqlGet) {
+        this.sqlGet = sqlGet;
+    }
+
+    public void setSqlDeleteAll(String sqlDeleteAll) {
+        this.sqlDeleteAll = sqlDeleteAll;
+    }
+
+    public void setSqlGetCount(String sqlGetCount) {
+        this.sqlGetCount = sqlGetCount;
+    }
+
+    public void setSqlGetAll(String sqlGetAll) {
+        this.sqlGetAll = sqlGetAll;
+    }
+
+    public void setSqlUpdate(String sqlUpdate) {
+        this.sqlUpdate = sqlUpdate;
     }
 
     private RowMapper<User> userMapper = (resultSet, rowNum) -> {
@@ -30,8 +61,7 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public void add(final User user) {
         this.jdbcTemplate.update(
-            "INSERT INTO users(id, name, password, level, login, recommend, email) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?)",
+            this.sqlAdd,
             user.getId(), user.getName(), user.getPassword(),
             user.getLevel().intValue(), user.getLogin(), user.getRecommend(), user.getEmail());
     }
@@ -39,23 +69,23 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public User get(String id) {
         return this.jdbcTemplate.queryForObject(
-            "SELECT * FROM users WHERE id = ?",
+            this.sqlGet,
             new Object[] { id }, userMapper);
     }
 
     @Override
     public void deleteAll() {
-        this.jdbcTemplate.update("DELETE FROM users");
+        this.jdbcTemplate.update(this.sqlDeleteAll);
     }
 
     @Override
     public int getCount() {
-        return this.jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users", Integer.class);
+        return this.jdbcTemplate.queryForObject(this.sqlGetCount, Integer.class);
     }
 
     @Override
     public List<User> getAll() {
-        return this.jdbcTemplate.query("SELECT * FROM users ORDER BY id", userMapper);
+        return this.jdbcTemplate.query(this.sqlGetAll, userMapper);
     }
 
     @Override
