@@ -21,14 +21,19 @@
     <!-- userDao -->
     <bean id="userDao" class="springbook.user.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
+        <property name="sqlService" ref="sqlService" />
+    </bean>
+
+    <!-- sqlService -->
+    <bean id="sqlService" class="springbook.user.sqlservice.SimpleSqlService">
         <property name="sqlMap">
             <map>
-                <entry key="add" value="INSERT INTO users(id, name, password, level, login, recommend, email) VALUES(?, ?, ?, ?, ?, ?, ?)" />
-                <entry key="get" value="SELECT * FROM users WHERE id = ?" />
-                <entry key="deleteAll" value="DELETE FROM users" />
-                <entry key="getCount" value="SELECT COUNT(*) FROM users" />
-                <entry key="getAll" value="SELECT * FROM users ORDER BY id" />
-                <entry key="update" value="UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? WHERE id = ?" />
+                <entry key="userAdd" value="INSERT INTO users(id, name, password, level, login, recommend, email) VALUES(?, ?, ?, ?, ?, ?, ?)" />
+                <entry key="userGet" value="SELECT * FROM users WHERE id = ?" />
+                <entry key="userDeleteAll" value="DELETE FROM users" />
+                <entry key="userGetCount" value="SELECT COUNT(*) FROM users" />
+                <entry key="userGetAll" value="SELECT * FROM users ORDER BY id" />
+                <entry key="userUpdate" value="UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? WHERE id = ?" />
             </map>
         </property>
     </bean>
@@ -49,19 +54,6 @@
 
     <!-- DefaultAdvisorAutoProxyCreator -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
-
-<!--    &lt;!&ndash; transactionAdvice &ndash;&gt;-->
-<!--    <tx:advice id="transactionAdvice">-->
-<!--        <tx:attributes>-->
-<!--            <tx:method name="get*" read-only="true" />-->
-<!--            <tx:method name="*" />-->
-<!--        </tx:attributes>-->
-<!--    </tx:advice>-->
-
-<!--    &lt;!&ndash; AOP &ndash;&gt;-->
-<!--    <aop:config>-->
-<!--        <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)" />-->
-<!--    </aop:config>-->
 
     <!-- annotation drive -->
     <tx:annotation-driven />
