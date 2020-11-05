@@ -25,18 +25,7 @@
     </bean>
 
     <!-- sqlService -->
-    <bean id="sqlService" class="springbook.user.sqlservice.SimpleSqlService">
-        <property name="sqlMap">
-            <map>
-                <entry key="userAdd" value="INSERT INTO users(id, name, password, level, login, recommend, email) VALUES(?, ?, ?, ?, ?, ?, ?)" />
-                <entry key="userGet" value="SELECT * FROM users WHERE id = ?" />
-                <entry key="userDeleteAll" value="DELETE FROM users" />
-                <entry key="userGetCount" value="SELECT COUNT(*) FROM users" />
-                <entry key="userGetAll" value="SELECT * FROM users ORDER BY id" />
-                <entry key="userUpdate" value="UPDATE users SET name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? WHERE id = ?" />
-            </map>
-        </property>
-    </bean>
+    <bean id="sqlService" class="springbook.user.sqlservice.XmlSqlService"></bean>
 
     <!-- userService -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">

@@ -6,7 +6,6 @@ import springbook.user.sqlservice.jaxb.Sqlmap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +22,7 @@ public class JaxbTest {
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
         Sqlmap sqlmap = (Sqlmap)unmarshaller.unmarshal(
-                getClass().getResourceAsStream("sqlmap.xml"));
+                getClass().getResourceAsStream("springbook/user/dao/sqlmap.xml"));
 
         List<SqlType> sqlList = sqlmap.getSql();
 
