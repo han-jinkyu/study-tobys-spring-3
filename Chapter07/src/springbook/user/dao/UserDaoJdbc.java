@@ -8,7 +8,6 @@ import springbook.user.sqlservice.SqlService;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Map;
 
 public class UserDaoJdbc implements UserDao {
     private JdbcTemplate jdbcTemplate;

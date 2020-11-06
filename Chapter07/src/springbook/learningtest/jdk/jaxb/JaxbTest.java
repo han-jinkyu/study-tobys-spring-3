@@ -15,14 +15,14 @@ import static org.junit.Assert.assertThat;
 
 public class JaxbTest {
 
-    @Test(expected = UnmarshalException.class)
+    @Test
     public void readSqlmap() throws JAXBException, IOException {
         String contextPath = Sqlmap.class.getPackage().getName();
         JAXBContext context = JAXBContext.newInstance(contextPath);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
         Sqlmap sqlmap = (Sqlmap)unmarshaller.unmarshal(
-                getClass().getResourceAsStream("springbook/user/dao/sqlmap.xml"));
+                getClass().getResourceAsStream("sqlmap.xml"));
 
         List<SqlType> sqlList = sqlmap.getSql();
 

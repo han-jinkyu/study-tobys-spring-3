@@ -1,5 +1,6 @@
 package springbook.user.sqlservice;
 
+import org.springframework.beans.factory.InitializingBean;
 import springbook.user.dao.UserDao;
 import springbook.user.sqlservice.jaxb.SqlType;
 import springbook.user.sqlservice.jaxb.Sqlmap;
@@ -12,16 +13,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 // http://www.epril.com/sqlmap/ 을 찾을 수가 없기에 언마샬링이 실패
-@Deprecated
-public class XmlSqlService implements SqlService {
+public class XmlSqlService implements SqlService, InitializingBean {
     private Map<String, String> sqlMap = new HashMap<>();
+    private String sqlmapFile;
 
-    public XmlSqlService() {
+    public void setSqlmapFile(String sqlmapFile) {
+        this.sqlmapFile = sqlmapFile;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        loadSql();
+    }
+
+    public void loadSql() {
         String contextPath = Sqlmap.class.getPackage().getName();
         try {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            InputStream is = UserDao.class.getResourceAsStream("sqlmap.xml");
+            InputStream is = UserDao.class.getResourceAsStream(this.sqlmapFile);
             Sqlmap sqlmap = (Sqlmap)unmarshaller.unmarshal(is);
 
             for (SqlType sql : sqlmap.getSql()) {
