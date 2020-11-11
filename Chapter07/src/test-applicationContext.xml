@@ -28,11 +28,18 @@
     </bean>
 
     <!-- sqlService -->
-    <bean id="sqlService" class="springbook.user.sqlservice.XmlSqlService">
-        <property name="sqlReader" ref="sqlService" />
-        <property name="sqlRegistry" ref="sqlService" />
+    <bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">
+        <property name="sqlReader" ref="sqlReader" />
+        <property name="sqlRegistry" ref="sqlRegistry" />
+    </bean>
+
+    <!-- sqlReader -->
+    <bean id="sqlReader" class="springbook.user.sqlservice.JaxbXmlSqlReader">
         <property name="sqlmapFile" value="sqlmap.xml" />
     </bean>
+
+    <!-- sqlRegistry -->
+    <bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry" />
 
     <!-- userService -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">
