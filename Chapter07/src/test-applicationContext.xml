@@ -28,18 +28,21 @@
     </bean>
 
     <!-- sqlService -->
-    <bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">
-        <property name="sqlReader" ref="sqlReader" />
-        <property name="sqlRegistry" ref="sqlRegistry" />
-    </bean>
+    <bean id="sqlService" class="springbook.user.sqlservice.DefaultSqlService" />
 
-    <!-- sqlReader -->
-    <bean id="sqlReader" class="springbook.user.sqlservice.JaxbXmlSqlReader">
-        <property name="sqlmapFile" value="sqlmap.xml" />
-    </bean>
+<!--    &lt;!&ndash; sqlService &ndash;&gt;-->
+<!--    <bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">-->
+<!--        <property name="sqlReader" ref="sqlReader" />-->
+<!--        <property name="sqlRegistry" ref="sqlRegistry" />-->
+<!--    </bean>-->
 
-    <!-- sqlRegistry -->
-    <bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry" />
+<!--    &lt;!&ndash; sqlReader &ndash;&gt;-->
+<!--    <bean id="sqlReader" class="springbook.user.sqlservice.JaxbXmlSqlReader">-->
+<!--        <property name="sqlmapFile" value="sqlmap.xml" />-->
+<!--    </bean>-->
+
+<!--    &lt;!&ndash; sqlRegistry &ndash;&gt;-->
+<!--    <bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry" />-->
 
     <!-- userService -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">
