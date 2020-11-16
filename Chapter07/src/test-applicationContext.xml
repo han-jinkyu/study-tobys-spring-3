@@ -28,21 +28,14 @@
     </bean>
 
     <!-- sqlService -->
-    <bean id="sqlService" class="springbook.user.sqlservice.DefaultSqlService" />
+    <bean id="sqlService" class="springbook.user.sqlservice.OxmSqlService">
+        <property name="unmarshaller" ref="unmarshaller" />
+    </bean>
 
-<!--    &lt;!&ndash; sqlService &ndash;&gt;-->
-<!--    <bean id="sqlService" class="springbook.user.sqlservice.BaseSqlService">-->
-<!--        <property name="sqlReader" ref="sqlReader" />-->
-<!--        <property name="sqlRegistry" ref="sqlRegistry" />-->
-<!--    </bean>-->
-
-<!--    &lt;!&ndash; sqlReader &ndash;&gt;-->
-<!--    <bean id="sqlReader" class="springbook.user.sqlservice.JaxbXmlSqlReader">-->
-<!--        <property name="sqlmapFile" value="sqlmap.xml" />-->
-<!--    </bean>-->
-
-<!--    &lt;!&ndash; sqlRegistry &ndash;&gt;-->
-<!--    <bean id="sqlRegistry" class="springbook.user.sqlservice.HashMapSqlRegistry" />-->
+    <!-- unmarshaller -->
+    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPath" value="springbook.user.sqlservice.jaxb" />
+    </bean>
 
     <!-- userService -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">
