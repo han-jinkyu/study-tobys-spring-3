@@ -9,7 +9,7 @@ import springbook.user.sqlservice.UpdatableSqlRegistry;
 import javax.sql.DataSource;
 import java.util.Map;
 
-public class EmbeddedSqlRegistry implements UpdatableSqlRegistry {
+public class EmbeddedDbSqlRegistry implements UpdatableSqlRegistry {
     JdbcTemplate jdbcTemplate;
 
     public void setDataSource(DataSource dataSource) {
