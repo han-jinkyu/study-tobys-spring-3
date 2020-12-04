@@ -4,14 +4,15 @@ import com.mysql.cj.jdbc.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.mail.MailSender;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springbook.user.dao.UserDao;
 import springbook.user.dao.UserDaoJdbc;
 import springbook.user.service.DummyMailSender;
@@ -23,18 +24,14 @@ import springbook.user.sqlservice.SqlRegistry;
 import springbook.user.sqlservice.SqlService;
 import springbook.user.sqlservice.updatable.EmbeddedDbSqlRegistry;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
-@ImportResource(locations = "classpath:test-applicationContext.xml")
+@EnableTransactionManagement
 public class TestApplicationContext {
 
     @Autowired
     SqlService sqlService;
-
-    @Resource
-    DataSource embeddedDatabase;
 
     @Bean
     public DataSource dataSource() {
@@ -95,7 +92,7 @@ public class TestApplicationContext {
     @Bean
     public SqlRegistry sqlRegistry() {
         EmbeddedDbSqlRegistry sqlRegistry = new EmbeddedDbSqlRegistry();
-        sqlRegistry.setDataSource(this.embeddedDatabase);
+        sqlRegistry.setDataSource(embeddedDatabase());
         return sqlRegistry;
     }
 
@@ -104,5 +101,14 @@ public class TestApplicationContext {
         Jaxb2Marshaller unmarshaller = new Jaxb2Marshaller();
         unmarshaller.setContextPath("springbook.user.sqlservice.jaxb");
         return unmarshaller;
+    }
+
+    @Bean
+    public DataSource embeddedDatabase() {
+        return new EmbeddedDatabaseBuilder()
+                .setName("embeddedDatabase")
+                .setType(EmbeddedDatabaseType.HSQL)
+                .addScript("classpath:springbook/user/sqlservice/updatable/sqlRegistrySchema.sql")
+                .build();
     }
 }
