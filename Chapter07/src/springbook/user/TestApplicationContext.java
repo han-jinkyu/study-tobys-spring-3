@@ -3,6 +3,7 @@ package springbook.user;
 import com.mysql.cj.jdbc.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -14,7 +15,6 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springbook.user.dao.UserDao;
-import springbook.user.dao.UserDaoJdbc;
 import springbook.user.service.DummyMailSender;
 import springbook.user.service.UserService;
 import springbook.user.service.UserServiceImpl;
@@ -28,10 +28,14 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan(basePackages = "springbook.user")
 public class TestApplicationContext {
 
     @Autowired
     SqlService sqlService;
+
+    @Autowired
+    UserDao userDao;
 
     @Bean
     public DataSource dataSource() {
@@ -53,22 +57,9 @@ public class TestApplicationContext {
     }
 
     @Bean
-    public UserDao userDao() {
-        return new UserDaoJdbc();
-    }
-
-    @Bean
-    public UserService userService() {
-        UserServiceImpl userService = new UserServiceImpl();
-        userService.setUserDao(userDao());
-        userService.setMailSender(mailSender());
-        return userService;
-    }
-
-    @Bean
     public UserService testUserService() {
         UserServiceTest.TestUserService testUserService = new UserServiceTest.TestUserService();
-        testUserService.setUserDao(userDao());
+        testUserService.setUserDao(this.userDao);
         testUserService.setMailSender(mailSender());
         return testUserService;
     }
