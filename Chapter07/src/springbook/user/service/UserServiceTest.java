@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import springbook.user.AppContext;
-import springbook.user.TestAppContext;
 import springbook.user.dao.UserDao;
 import springbook.user.domain.Level;
 import springbook.user.domain.User;
@@ -43,6 +43,9 @@ public class UserServiceTest {
     UserDao userDao;
 
     List<User> users;   // 테스트 픽스쳐
+
+    @Autowired
+    DefaultListableBeanFactory bf;
 
     @Before
     public void setUp() {
@@ -166,5 +169,12 @@ public class UserServiceTest {
         userService.deleteAll();
         userService.add(users.get(0));
         userService.add(users.get(1));
+    }
+
+    @Test
+    public void beans() {
+        for (String name : bf.getBeanDefinitionNames()) {
+            System.out.println(name + "\t " + bf.getBean(name).getClass().getName());
+        }
     }
 }
