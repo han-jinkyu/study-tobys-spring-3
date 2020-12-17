@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epril.com/sqlmap"
+        xmlns:tns="http://www.epril.com/sqlmap" elementFormDefault="qualified">
+
+    <element name="sqlmap"> <!-- <sqlmap> 엘리먼트를 정의한다 -->
+        <complexType>
+            <sequence>
+                <!-- maxOccurs: 최대 사용 개수 지정 -->
+                <element name="sql" maxOccurs="unbounded" type="tns:sqlType" />
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="sqlType"> <!-- <sql>에 대한 정의를 시작한다 -->
+        <simpleContent>
+            <extension base="string">   <!-- SQL 문장을 넣을 스트링 타입을 정의한다 -->
+                <attribute name="key" use="required" type="string" />
+            </extension>
+        </simpleContent>
+    </complexType>
+</schema>
